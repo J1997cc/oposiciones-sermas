@@ -5,7 +5,7 @@
    La versión cambia en cada publicación: así el móvil o la tablet detecta que hay
    contenido nuevo y la app muestra el aviso «Actualizar ahora». */
 const VERSION = "3d0355263f";
-const CACHE = "sermas-c1-" + VERSION;
+const CACHE = "sermas-c1-v2-" + VERSION;
 const ARCHIVOS = [
   "./",
   "./index.html",
