@@ -2,17 +2,8 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Administrativo SERMAS · Estudio y test</title>
-<meta name="description" content="Temario, resúmenes, test con corrección, tarjetas de memoria y estadísticas para la oposición de Administrativo del SERMAS. Funciona sin internet.">
-<meta name="theme-color" content="#0f5c7a">
-<link rel="manifest" href="manifest.webmanifest">
-<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
-<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="SERMAS C1">
 <style>
 :root{
   --bg:#f5f7fa; --panel:#ffffff; --txt:#16202c; --suave:#5b6878; --borde:#e1e6ed;
@@ -360,8 +351,8 @@ const VERSION_TEMARIO = {
   estado: "provisional", // "provisional" | "oficial"
   etiqueta: "Temario de la convocatoria 2021 (provisional)",
   detalle: "Estructura basada en el Anexo I de la Resolución de 16 de junio de 2021 (BOCM n.º 149, de 24 de junio de 2021). El temario oficial de 2026 (40 temas: 5 de parte general y 35 de parte específica) se publicará durante el plazo de solicitudes, que termina el 9 de diciembre de 2026. Cuando salga, esta web se actualizará y recibirás un aviso.",
-  actualizado: "2026-11-22",
-  novedad: null // { titulo, texto } — se muestra como aviso destacado una vez por versión
+  actualizado: "2026-11-24",
+  novedad: { titulo: "Nuevo: tests de nivel intermedio-avanzado y avanzado", texto: "Se han añadido 139 preguntas más difíciles (estilo examinador). En «Test» elige la dificultad: Básico, Intermedio-avanzado, Avanzado o Mezcla exigente. Tu progreso anterior se conserva." } // { titulo, texto } — se muestra como aviso destacado una vez por versión
 };
 
 const CONVOCATORIA = {
@@ -1216,7 +1207,206 @@ const PREGUNTAS_RAW = [
   ["of07","ofimatica","En Word en español, el atajo de teclado para guardar el documento es:",["Ctrl+S","Ctrl+G","Ctrl+A","Ctrl+U"],1,"En la versión en español, Ctrl+G guarda (Ctrl+S es subrayado y Ctrl+A abrir)."]
 ];
 
-const PREGUNTAS = PREGUNTAS_RAW.map(([id, m, q, o, a, e]) => ({ id, m, q, o, a, e }));
+/* ============================================================
+   PREGUNTAS DE NIVEL INTERMEDIO-AVANZADO (2) Y AVANZADO (3)
+   Formato: [id, materia, enunciado, [4 opciones], índice correcta, explicación, nivel]
+   Estilo examinador: supuestos prácticos, cómputo de plazos,
+   «señale la incorrecta» y distractores muy próximos.
+   Las opciones se barajan en cada test: no usar «todas las anteriores».
+   ============================================================ */
+const PREGUNTAS_AVANZADAS_RAW = [
+  // ---------- Procedimiento I (lpac1) ----------
+  ["av-lp01","lpac1","Un acto que no pone fin a la vía administrativa se notifica el 31 de enero de 2025. Sabiendo que el 28 de febrero de 2025 fue viernes y no festivo, ¿cuál es el último día para interponer recurso de alzada?",["28 de febrero de 2025","1 de marzo de 2025","2 de marzo de 2025","3 de marzo de 2025"],0,"Art. 30.4 Ley 39/2015: el plazo por meses vence el mismo día del mes de vencimiento en que se notificó; si ese día no existe (31 de febrero), vence el último día del mes. Como el 28 de febrero era hábil, no se prorroga al lunes 3 de marzo.",3],
+  ["av-lp02","lpac1","Se notifica el viernes día 3 un requerimiento para subsanar una solicitud. Suponiendo que en ese mes no hay ningún festivo, ¿cuál es el último día del plazo?",["El lunes 13","El jueves 16","El viernes 17","El lunes 20"],2,"10 días hábiles (art. 68.1) contados desde el día siguiente (art. 30.3) y sin sábados ni domingos: lunes 6 a viernes 10 (5 días) y lunes 13 a viernes 17 (10 días).",3],
+  ["av-lp03","lpac1","En una notificación en papel nadie se hace cargo de ella en el primer intento, realizado a las 14:30 del lunes. El segundo intento debe hacerse:",["Al día siguiente, a cualquier hora","Dentro de los 3 días siguientes, después de las 15:00 y con al menos 3 horas de diferencia respecto del primero","Dentro de los 5 días siguientes, en horario de mañana","No hay segundo intento: se publica directamente en el BOE"],1,"Art. 42.2 Ley 39/2015: se repite una sola vez, en hora distinta, dentro de los 3 días siguientes; si el primer intento fue antes de las 15:00, el segundo debe ser después de las 15:00 (y viceversa), con un margen mínimo de 3 horas.",3],
+  ["av-lp04","lpac1","Para entender cumplida la obligación de notificar dentro del plazo máximo de duración del procedimiento basta con:",["Que el acto se haya dictado dentro del plazo","La notificación que contenga, al menos, el texto íntegro de la resolución, así como el intento de notificación debidamente acreditado","Que el interesado acceda a la notificación dentro del plazo","La publicación en el tablón de anuncios del órgano"],1,"Art. 40.4 Ley 39/2015. Dictar el acto en plazo no basta: hay que notificarlo o, al menos, intentarlo de forma acreditada.",2],
+  ["av-lp05","lpac1","Un Jefe de Servicio dicta una resolución que correspondía a su Director General, dentro de la misma materia y territorio. Ese acto es:",["Nulo de pleno derecho por incompetencia","Anulable, y el Director General puede convalidarlo","Inexistente","Válido, porque ambos pertenecen al mismo órgano"],1,"La incompetencia jerárquica no es «manifiesta por razón de la materia o del territorio» (art. 47.1 b), así que es anulable (art. 48). Art. 52.3: la puede convalidar el órgano competente cuando sea superior jerárquico del que dictó el acto.",3],
+  ["av-lp06","lpac1","La realización de actuaciones administrativas fuera del tiempo establecido para ellas:",["Siempre determina la nulidad de pleno derecho","Siempre determina la anulabilidad","Solo implica anulabilidad cuando así lo imponga la naturaleza del término o plazo","Nunca tiene consecuencias sobre la validez"],2,"Art. 48.3 Ley 39/2015.",2],
+  ["av-lp07","lpac1","Una solicitud se desestima por silencio. El interesado interpone recurso de alzada y la Administración tampoco lo resuelve en plazo. Si la materia no es de las excluidas por la ley, el recurso se entiende:",["Desestimado, porque en los recursos el silencio es siempre negativo","Estimado","Caducado","Pendiente hasta que se dicte resolución expresa"],1,"Art. 24.1 Ley 39/2015: el silencio en los recursos es desestimatorio, salvo cuando la alzada se interpuso contra la desestimación por silencio de una solicitud: entonces el recurso se entiende estimado.",3],
+  ["av-lp08","lpac1","Producido un silencio estimatorio, la Administración dicta tarde una resolución expresa. Esa resolución:",["Puede ser de cualquier sentido","Solo puede dictarse si es confirmatoria del silencio","Debe ser siempre desestimatoria para corregir el silencio","Es nula, porque ya no existe obligación de resolver"],1,"Art. 24.3 a) Ley 39/2015. En cambio, tras un silencio desestimatorio la resolución expresa posterior se adopta sin vinculación al sentido del silencio (art. 24.3 b).",3],
+  ["av-lp09","lpac1","¿En cuál de estas actuaciones se PRESUME la representación, sin necesidad de acreditarla?",["Interponer un recurso","Desistir de una solicitud","Renunciar a un derecho","Realizar actos y gestiones de mero trámite"],3,"Art. 5.3 Ley 39/2015: hay que acreditar la representación para formular solicitudes, presentar declaraciones responsables o comunicaciones, interponer recursos, desistir y renunciar. Para los actos de mero trámite se presume.",2],
+  ["av-lp10","lpac1","Sobre la ampliación de plazos, señale la afirmación INCORRECTA:",["Puede acordarse de oficio o a petición de los interesados","No puede exceder de la mitad del plazo inicial","Puede acordarse una vez vencido el plazo si hay causa justificada","El acuerdo de ampliación o de denegación no es recurrible"],2,"Art. 32.3 Ley 39/2015: en ningún caso puede ampliarse un plazo ya vencido; la ampliación debe pedirse y acordarse antes de que venza.",2],
+  ["av-lp11","lpac1","Excepcionalmente, los actos administrativos pueden tener eficacia retroactiva:",["Siempre que lo acuerde el superior jerárquico","Cuando se dicten en sustitución de actos anulados y cuando produzcan efectos favorables al interesado, si los supuestos de hecho ya existían y no se lesionan derechos de terceros","Cuando sean desfavorables y lo exija el interés público","Nunca: la irretroactividad de los actos es absoluta"],1,"Art. 39.3 Ley 39/2015.",3],
+  ["av-lp12","lpac1","Cuando, intentada la notificación, no se ha podido practicar, la notificación se hace:",["Mediante anuncio en el Boletín Oficial del Estado","Solo en el boletín oficial de la comunidad autónoma","Solo en el tablón del ayuntamiento del último domicilio","Se entiende practicada sin más trámite"],0,"Art. 44 Ley 39/2015: anuncio obligatorio en el BOE; las demás publicaciones son potestativas y adicionales.",2],
+  ["av-lp13","lpac1","Un plazo de 10 días naturales vence en domingo. ¿Qué ocurre?",["Vence ese domingo, porque los días naturales incluyen los inhábiles","Se adelanta al viernes anterior","Se prorroga al primer día hábil siguiente","Se prorroga 2 días naturales"],2,"Art. 30.5 Ley 39/2015: cuando el último día del plazo es inhábil, se prorroga al primer día hábil siguiente, también en los plazos por días naturales.",2],
+
+  // ---------- Procedimiento II (lpac2) ----------
+  ["av-lq01","lpac2","En un procedimiento selectivo de concurrencia competitiva, el plazo de 10 días para subsanar la solicitud:",["Puede ampliarse hasta 5 días si la aportación presenta dificultades especiales","No puede ampliarse","Puede ampliarse hasta la mitad","Puede ampliarse sin límite si lo pide el interesado"],1,"Art. 68.2 Ley 39/2015: la ampliación de hasta 5 días no se aplica en los procedimientos selectivos o de concurrencia competitiva.",3],
+  ["av-lq02","lpac2","Se puede prescindir del trámite de audiencia cuando:",["El procedimiento lleva más de 3 meses","No figuren ni se tengan en cuenta otros hechos, alegaciones o pruebas que los aducidos por el interesado","El órgano instructor lo considere conveniente","El interesado no haya presentado alegaciones iniciales"],1,"Art. 82.4 Ley 39/2015.",2],
+  ["av-lq03","lpac2","Una persona comparece en el trámite de información pública de un procedimiento. Por ese solo hecho:",["Adquiere la condición de interesado","No adquiere la condición de interesado, pero tiene derecho a una respuesta razonada","Queda obligada a recurrir la resolución","Pierde el derecho a recurrir si no comparece después en audiencia"],1,"Art. 83.3 Ley 39/2015: comparecer no otorga la condición de interesado, aunque sí el derecho a obtener una respuesta razonada; y no comparecer no impide recurrir.",2],
+  ["av-lq04","lpac2","El periodo de prueba ordinario y el extraordinario tienen, respectivamente, una duración de:",["Entre 10 y 30 días / no superior a 10 días","Entre 5 y 15 días / no superior a 5 días","Entre 10 y 20 días / no superior a 15 días","1 mes / 15 días"],0,"Art. 77.2 Ley 39/2015.",2],
+  ["av-lq05","lpac2","Un informe preceptivo no se emite en el plazo de 10 días. ¿Qué puede hacer el órgano instructor?",["Proseguir siempre las actuaciones","Suspender el transcurso del plazo máximo para resolver","Archivar el procedimiento","Entender que el informe es favorable"],1,"Art. 80.3 Ley 39/2015: si el informe no llega se pueden proseguir las actuaciones, salvo que sea preceptivo; en ese caso se puede suspender el plazo para resolver (art. 22.1 d), por un máximo de 3 meses.",3],
+  ["av-lq06","lpac2","La Administración acuerda de oficio la tramitación simplificada y un interesado manifiesta su oposición expresa. Entonces:",["Se sigue la simplificada, porque la decisión es de la Administración","Se debe seguir la tramitación ordinaria","El procedimiento caduca","Se resuelve en 15 días"],1,"Art. 96.2 Ley 39/2015.",3],
+  ["av-lq07","lpac2","Sobre la caducidad del procedimiento, señale la correcta:",["La caducidad produce por sí sola la prescripción de las acciones","Los procedimientos caducados no interrumpen el plazo de prescripción","Un procedimiento caducado interrumpe la prescripción desde su inicio","La caducidad impide iniciar un nuevo procedimiento"],1,"Art. 95.3 Ley 39/2015: la caducidad no produce por sí sola la prescripción, pero los procedimientos caducados no la interrumpen. Si no ha prescrito, puede abrirse otro procedimiento.",3],
+  ["av-lq08","lpac2","Se propone una sanción de 1.000 €. El infractor reconoce su responsabilidad y paga voluntariamente antes de la resolución. Aplicando las reducciones mínimas legales, ¿cuánto pagaría?",["800 €","640 €","600 €","500 €"],2,"Art. 85.3 Ley 39/2015: cada reducción es de al menos el 20% sobre el importe de la sanción propuesta y son acumulables: 20% + 20% = 40%; 1.000 − 400 = 600 €. 640 € sería aplicar el segundo 20% sobre lo ya reducido, que no es lo que dice la ley.",3],
+  ["av-lq09","lpac2","Hay tres interesados en un procedimiento iniciado a su solicitud y uno de ellos desiste. ¿Qué ocurre?",["Termina el procedimiento para todos","El desistimiento solo afecta a quien lo ha formulado","Los demás deben ratificar su solicitud en 10 días","El procedimiento caduca"],1,"Art. 94.2 Ley 39/2015.",2],
+  ["av-lq10","lpac2","En los procedimientos tramitados a solicitud del interesado, la resolución:",["Puede agravar su situación inicial si hay interés público","Será congruente con lo pedido y en ningún caso podrá agravar su situación inicial","Puede resolver cuestiones no planteadas sin audiencia","Puede modificar lo pedido si el interesado no alega en plazo"],1,"Art. 88.2 Ley 39/2015.",2],
+
+  // ---------- Procedimiento III (lpac3) ----------
+  ["av-lr01","lpac3","Si el acto que se quiere recurrir en alzada es presunto (silencio), el recurso puede interponerse:",["En el plazo de 1 mes desde que se produce el silencio","En el plazo de 3 meses","En cualquier momento a partir del día siguiente a aquel en que se produzcan los efectos del silencio","Solo después de pedir certificado de silencio"],2,"Art. 122.1 Ley 39/2015.",2],
+  ["av-lr02","lpac3","Un interesado pide la suspensión del acto que recurre. Si en 1 mes desde que la solicitud entró en el registro del órgano competente no se ha dictado ni notificado resolución sobre ella:",["La suspensión se entiende denegada","La ejecución del acto se entiende suspendida","El recurso se entiende estimado","El plazo para resolver el recurso se amplía"],1,"Art. 117.3 Ley 39/2015: silencio positivo en la solicitud de suspensión.",3],
+  ["av-lr03","lpac3","Un acto firme se dictó a partir de documentos que una sentencia judicial firme posterior declara falsos. El recurso extraordinario de revisión:",["Se interpone ante el órgano que dictó el acto, en 3 meses desde que la sentencia quedó firme","Se interpone ante el superior jerárquico, en 4 años desde la notificación","Se interpone ante el Tribunal Superior de Justicia en 2 meses","No cabe: solo procede por error de hecho"],0,"Art. 125 Ley 39/2015: el plazo de 4 años es solo para el error de hecho que resulte de los documentos del expediente; en los demás casos, 3 meses. Se interpone ante el órgano que dictó el acto.",3],
+  ["av-lr04","lpac3","En la revisión de oficio de un acto nulo, si transcurren 6 meses desde su inicio sin resolución:",["Si se inició de oficio, caduca; si fue a solicitud del interesado, se entiende desestimada","Siempre se entiende estimada","Siempre caduca","Se convierte en declaración de lesividad"],0,"Art. 106.5 Ley 39/2015.",3],
+  ["av-lr05","lpac3","Iniciado el procedimiento de declaración de lesividad, si en ___ no se ha declarado, se produce ___:",["3 meses / la desestimación","6 meses / la caducidad","1 año / la prescripción","4 años / la caducidad"],1,"Art. 107.3 Ley 39/2015. No confundir con los 4 años que hay para declarar la lesividad desde que se dictó el acto.",3],
+  ["av-lr06","lpac3","¿Contra cuál de estos actos de trámite cabe recurso administrativo?",["Uno que produce indefensión al interesado","El acuerdo de ampliación de un plazo","La petición de un informe facultativo","La apertura del periodo de prueba"],0,"Art. 112.1 Ley 39/2015: solo los actos de trámite cualificados (deciden el fondo, impiden continuar, producen indefensión o perjuicio irreparable). La ampliación de plazos no es recurrible (art. 32.3).",2],
+  ["av-lr07","lpac3","Contra una orden de una Consejería que aprueba un reglamento (disposición de carácter general):",["Cabe recurso de alzada","Cabe recurso potestativo de reposición","No cabe recurso en vía administrativa; se impugna ante la jurisdicción contencioso-administrativa","Solo cabe recurso extraordinario de revisión"],2,"Art. 112.3 Ley 39/2015.",3],
+  ["av-lr08","lpac3","Un recurso de alzada se presenta ante el órgano que dictó el acto, y no ante el competente para resolverlo. Ese órgano debe:",["Inadmitirlo por error en el destinatario","Remitirlo al competente en 10 días, con su informe y una copia completa y ordenada del expediente","Resolverlo él mismo","Devolverlo al interesado para que lo presente bien"],1,"Art. 121.2 Ley 39/2015.",3],
+  ["av-lr09","lpac3","La Administración puede revocar sus actos de gravamen o desfavorables:",["En cualquier momento y sin límites","Mientras no haya transcurrido el plazo de prescripción, si no supone una dispensa no permitida ni es contraria a la igualdad, al interés público o al ordenamiento","Solo en los 4 años siguientes y previa declaración de lesividad","Solo con dictamen del órgano consultivo"],1,"Art. 109.1 Ley 39/2015.",3],
+  ["av-lr10","lpac3","Una resolución que pone fin a la vía administrativa se recurre en reposición y, sin esperar, el interesado presenta recurso contencioso-administrativo. ¿Es correcto?",["Sí, los dos recursos son compatibles","No: no puede acudir al contencioso hasta que la reposición se resuelva expresamente o se desestime por silencio","Sí, si la reposición no se ha admitido aún","No, porque la reposición es obligatoria"],1,"Art. 123.2 Ley 39/2015. La reposición es potestativa, pero si se elige hay que esperar a su resolución.",3],
+  ["av-lr11","lpac3","El interesado llama «recurso de reposición» a lo que es realmente un recurso de alzada. ¿Qué ocurre?",["Se inadmite","Se tramita como lo que es, porque el error en la calificación no es obstáculo si se deduce su verdadero carácter","Debe presentarlo de nuevo","Se tramita como reclamación"],1,"Art. 115.2 Ley 39/2015.",2],
+
+  // ---------- Régimen jurídico I (lrjsp1) ----------
+  ["av-rj01","lrjsp1","¿En cuál de estos casos NO hay causa de abstención por parentesco del funcionario con el interesado?",["El interesado es primo hermano del funcionario","El interesado es cuñado del funcionario","El interesado es sobrino del cónyuge del funcionario","El interesado es abuelo del funcionario"],2,"Art. 23.2 b) Ley 40/2015: consanguinidad hasta el 4.º grado (primo hermano = 4.º; abuelo = 2.º) y afinidad hasta el 2.º (cuñado = 2.º). El sobrino del cónyuge es afinidad de 3.er grado.",3],
+  ["av-rj02","lrjsp1","Un funcionario debe tramitar un expediente de una empresa a la que prestó servicios profesionales hace un año. ¿Qué debe hacer?",["Abstenerse, porque le prestó servicios profesionales en los dos últimos años","Solo abstenerse si sigue cobrando de la empresa","Nada: solo cuenta el parentesco","Seguir si lo comunica al interesado"],0,"Art. 23.2 e) Ley 40/2015.",3],
+  ["av-rj03","lrjsp1","Los actos en los que ha intervenido una autoridad que debió abstenerse y no lo hizo:",["Son siempre nulos de pleno derecho","Son siempre anulables","No implican necesariamente la invalidez de los actos","Son inexistentes"],2,"Art. 23.4 Ley 40/2015. Eso sí, no abstenerse da lugar a responsabilidad (art. 23.5).",3],
+  ["av-rj04","lrjsp1","Contra el acuerdo de avocación:",["Cabe recurso de alzada","Cabe recurso de reposición","No cabe recurso, aunque puede impugnarse en el recurso que se interponga contra la resolución del procedimiento","Cabe recurso contencioso directo"],2,"Art. 10.2 Ley 40/2015. El acuerdo debe ser motivado y notificarse antes o a la vez que la resolución final.",3],
+  ["av-rj05","lrjsp1","Las resoluciones administrativas adoptadas por delegación se consideran dictadas por:",["El órgano delegado","El órgano delegante","El superior jerárquico de ambos","El órgano que publique la delegación"],1,"Art. 9.4 Ley 40/2015. Por eso, a efectos de recursos, cuenta el órgano delegante.",2],
+  ["av-rj06","lrjsp1","Salvo autorización expresa de una ley, ¿se pueden delegar las competencias que se ejercen por delegación?",["Sí, siempre","No","Sí, con autorización del superior","Sí, si se publica en el boletín oficial"],1,"Art. 9.5 Ley 40/2015: no cabe la «subdelegación» salvo que una ley lo autorice expresamente.",3],
+  ["av-rj07","lrjsp1","¿Puede un órgano colegiado acordar sobre un asunto que no figura en el orden del día?",["Nunca","Sí, si lo propone el Presidente","Sí, si asisten todos sus miembros y la mayoría declara la urgencia del asunto","Sí, si lo pide un tercio de los miembros"],2,"Art. 17.4 Ley 40/2015.",3],
+  ["av-rj08","lrjsp1","Sobre la suplencia, señale la correcta:",["Altera la competencia del órgano suplido","Para su validez no es necesaria su publicación","Debe aprobarla siempre el Consejo de Gobierno","Solo cabe por enfermedad"],1,"Art. 13 Ley 40/2015: la suplencia no altera la competencia y no requiere publicación.",2],
+  ["av-rj09","lrjsp1","Si el funcionario recusado niega que se dé la causa alegada:",["Se archiva la recusación","El superior resolverá en 3 días, previos los informes y comprobaciones oportunos","Resuelve el propio recusado","Se suspende el procedimiento 1 mes"],1,"Art. 24.4 Ley 40/2015. Contra esa resolución no cabe recurso, aunque la recusación puede alegarse al recurrir el acto final (art. 24.5).",3],
+  ["av-rj10","lrjsp1","¿Quiénes NO pueden abstenerse en las votaciones de un órgano colegiado?",["Los miembros que no hayan asistido a la sesión anterior","Las autoridades o personal al servicio de las Administraciones que sean miembros natos en virtud de su cargo","Los representantes de organizaciones sindicales","El Secretario que no es miembro"],1,"Art. 19 Ley 40/2015.",3],
+
+  // ---------- Régimen jurídico II (lrjsp2) ----------
+  ["av-rk01","lrjsp2","Se recurre en alzada una resolución sancionadora y el recurso se desestima por silencio. ¿Desde cuándo empieza a prescribir la sanción?",["Desde que se dictó la sanción","Desde el día siguiente a aquel en que finaliza el plazo legal para resolver el recurso","Desde que el interesado acude al contencioso","No prescribe mientras no haya resolución expresa"],1,"Art. 30.3 Ley 40/2015.",3],
+  ["av-rk02","lrjsp2","El plazo de prescripción de una infracción, interrumpido al iniciarse el procedimiento sancionador con conocimiento del interesado, vuelve a correr si el expediente está paralizado:",["Más de 15 días por cualquier causa","Más de 1 mes por causa no imputable al presunto responsable","Más de 3 meses por causa imputable al interesado","Más de 6 meses"],1,"Art. 30.2 Ley 40/2015.",3],
+  ["av-rk03","lrjsp2","Para graduar la sanción, la reincidencia se entiende como:",["Cualquier infracción anterior","La comisión en el término de 1 año de más de una infracción de la misma naturaleza, declarada por resolución firme en vía administrativa","La comisión de 3 infracciones en 2 años","Haber sido sancionado alguna vez en vía penal"],1,"Art. 29.3 d) Ley 40/2015.",3],
+  ["av-rk04","lrjsp2","Un paciente sufre un daño por un efecto adverso que, según el estado de la ciencia en el momento de la asistencia, no se podía prever ni evitar. ¿Hay responsabilidad patrimonial?",["Sí, porque la responsabilidad es objetiva","No: esos daños no son indemnizables","Sí, pero solo por la mitad","Solo si el paciente firmó el consentimiento informado"],1,"Art. 34.1 Ley 40/2015: no son indemnizables los daños derivados de hechos o circunstancias que no se hubiesen podido prever o evitar según el estado de los conocimientos de la ciencia o de la técnica existentes en el momento de producirse.",3],
+  ["av-rk05","lrjsp2","Un ciudadano sufre un daño por la actuación de un empleado del SERMAS. ¿A quién reclama la indemnización?",["Directamente al empleado","Directamente a la Administración","A los dos, de forma solidaria","Al seguro privado del empleado"],1,"Art. 36.1 Ley 40/2015. Después, la Administración puede exigir al empleado la responsabilidad si hubo dolo, o culpa o negligencia graves (acción de regreso, art. 36.2).",2],
+  ["av-rk06","lrjsp2","En caso de daños físicos o psíquicos, el plazo de 1 año para reclamar responsabilidad patrimonial empieza a contar:",["Desde el día del hecho","Desde la curación o la determinación del alcance de las secuelas","Desde la primera visita médica","Desde que el interesado conoce al responsable"],1,"Art. 67.1 Ley 39/2015.",2],
+  ["av-rk07","lrjsp2","En un procedimiento de responsabilidad patrimonial, transcurridos 6 meses sin resolución expresa:",["Se entiende estimada la reclamación","Se entiende desestimada la reclamación","Caduca el procedimiento","Prescribe el derecho"],1,"Art. 91.3 Ley 39/2015.",2],
+  ["av-rk08","lrjsp2","El principio non bis in idem impide sancionar unos hechos ya sancionados penal o administrativamente cuando se aprecie identidad de:",["Sujeto y hecho","Sujeto, hecho y fundamento","Hecho y órgano sancionador","Sujeto, hecho y cuantía"],1,"Art. 31.1 Ley 40/2015.",2],
+
+  // ---------- Administración electrónica (admelec) ----------
+  ["av-ae01","admelec","Un interesado presenta su recurso en el registro electrónico a las 23:30 del último día del plazo, que es un martes hábil. ¿Está en plazo?",["No, el registro cierra a las 15:00","Sí: el registro electrónico permite presentar documentos todos los días del año durante las 24 horas","Solo si lo confirma el funcionario al día siguiente","No, se entiende presentado el miércoles"],1,"Art. 31.2 a) Ley 39/2015. Solo si se presenta en día inhábil se entiende hecho en la primera hora del primer día hábil siguiente.",2],
+  ["av-ae02","admelec","Las Administraciones solo pueden exigir obligatoriamente la firma (no basta con identificarse) para:",["Cualquier consulta en la sede electrónica","Formular solicitudes, presentar declaraciones responsables o comunicaciones, interponer recursos, desistir y renunciar","Consultar el estado de un expediente","Acceder a las notificaciones"],1,"Art. 11.2 Ley 39/2015.",3],
+  ["av-ae03","admelec","Las copias auténticas realizadas por una Administración Pública:",["Tienen menor valor probatorio que el original","Tienen la misma validez y eficacia que los documentos originales","Solo valen dentro de la misma Administración","Caducan a los 5 años"],1,"Art. 27.2 Ley 39/2015.",2],
+
+  // ---------- Protección de datos (lopd) ----------
+  ["av-pd01","lopd","El SERMAS, como Administración Pública, comete una infracción de protección de datos. Según la LO 3/2018, la sanción será:",["Multa de hasta 20 millones de euros","Multa del 4% de su presupuesto","Una resolución que declare la infracción, con apercibimiento","Ninguna, las Administraciones están exentas"],2,"Art. 77.2 LO 3/2018: a las Administraciones no se les imponen multas: se las sanciona con apercibimiento y, en su caso, se ordenan medidas para corregir la infracción.",3],
+  ["av-pd02","lopd","Según la LO 3/2018, las infracciones muy graves, graves y leves prescriben, respectivamente, a los:",["3 años, 2 años y 1 año","3 años, 2 años y 6 meses","4 años, 2 años y 1 año","5 años, 3 años y 1 año"],0,"Arts. 72, 73 y 74 LO 3/2018. Ojo: en la Ley 40/2015 la infracción leve prescribe a los 6 meses.",3],
+  ["av-pd03","lopd","El derecho a recibir tus datos en un formato estructurado, de uso común y lectura mecánica, y a transmitirlos a otro responsable es el derecho de:",["Acceso","Rectificación","Portabilidad","Oposición"],2,"Art. 20 RGPD.",2],
+  ["av-pd04","lopd","Según la LO 3/2018, ¿quién está obligado a designar un delegado de protección de datos?",["Un médico que ejerce su profesión a título individual","Un centro sanitario legalmente obligado a mantener historias clínicas","Una comunidad de propietarios","Un pequeño comercio de barrio"],1,"Art. 34.1 LO 3/2018; quedan fuera los profesionales sanitarios que ejerzan a título individual.",3],
+  ["av-pd05","lopd","Los datos relativos a la salud son, según el RGPD:",["Datos ordinarios","Categorías especiales de datos, cuyo tratamiento está prohibido salvo las excepciones del art. 9.2","Datos públicos","Datos solo protegidos si son genéticos"],1,"Art. 9 RGPD.",2],
+
+  // ---------- Transparencia (transp) ----------
+  ["av-tr01","transp","Quien pide acceso a información pública:",["Debe motivar siempre su solicitud","No está obligado a motivarla, aunque puede exponer los motivos","Debe acreditar un interés legítimo","Debe ser interesado en un procedimiento"],1,"Art. 17.3 Ley 19/2013.",2],
+  ["av-tr02","transp","Si la información solicitada puede afectar a derechos de terceros identificados:",["Se deniega directamente","Se les concede 15 días para alegar, y el plazo para resolver se suspende mientras tanto","Se concede sin oírles","Se les da 1 mes y el plazo sigue corriendo"],1,"Art. 19.3 Ley 19/2013.",3],
+  ["av-tr03","transp","Según la Ley 19/2013, la reclamación ante el Consejo de Transparencia y Buen Gobierno:",["Es obligatoria antes del contencioso y se presenta en 15 días","Es potestativa, se presenta en 1 mes y, si no se resuelve en 3 meses, se entiende desestimada","Es potestativa y el silencio es estimatorio","Sustituye al recurso de alzada y se presenta en 3 meses"],1,"Art. 24 Ley 19/2013.",3],
+  ["av-tr04","transp","Se inadmite una solicitud de acceso que pide:",["El presupuesto aprobado de un hospital","Los borradores y notas internas de un informe","Los contratos adjudicados el último año","Las retribuciones de los altos cargos"],1,"Art. 18.1 b) Ley 19/2013: información de carácter auxiliar o de apoyo (notas, borradores, opiniones, resúmenes, comunicaciones e informes internos).",2],
+
+  // ---------- Constitución (ce y ce2) ----------
+  ["av-ce01","ce","Para reformar el art. 14 CE (igualdad ante la ley) el procedimiento es:",["El agravado del art. 168, porque está en el Título I","El ordinario del art. 167, porque el art. 14 no forma parte de la Sección 1.ª del Capítulo II","Ley orgánica por mayoría absoluta","Referéndum consultivo"],1,"El art. 168 protege la Sección 1.ª del Capítulo II (arts. 15-29), el Título Preliminar, el Título II y la revisión total. El art. 14 está en el Capítulo II pero antes de esa sección.",3],
+  ["av-ce02","ce","¿Cuál de estos artículos solo puede reformarse por el procedimiento agravado del art. 168 CE?",["Art. 14 (igualdad)","Art. 27 (educación)","Art. 31 (deber de contribuir)","Art. 43 (protección de la salud)"],1,"El art. 27 está en la Sección 1.ª del Capítulo II. El 14 queda fuera de esa sección, el 31 está en la Sección 2.ª y el 43 en el Capítulo III.",3],
+  ["av-ce03","ce2","¿Quién NO está legitimado para interponer un recurso de inconstitucionalidad?",["El Defensor del Pueblo","50 senadores","El Ministerio Fiscal","El Consejo de Gobierno de una Comunidad Autónoma"],2,"Art. 162.1 a) CE. El Ministerio Fiscal sí puede interponer recurso de amparo (art. 162.1 b), pero no de inconstitucionalidad.",3],
+  ["av-ce04","ce","El derecho a la protección de la salud del art. 43 CE:",["Puede defenderse mediante recurso de amparo","Solo puede alegarse ante la jurisdicción ordinaria de acuerdo con las leyes que lo desarrollen","No vincula a los poderes públicos","Es un derecho fundamental de la Sección 1.ª"],1,"Art. 53.3 CE: los principios rectores del Capítulo III informan la legislación y la actuación de los poderes públicos, pero solo se alegan según lo que dispongan las leyes que los desarrollen.",3],
+  ["av-ce05","ce2","Para autorizar al Gobierno a refundir varios textos legales en uno solo (como el TREBEP), las Cortes deben aprobar:",["Una ley de bases","Una ley ordinaria","Una ley orgánica","Un decreto-ley"],1,"Art. 82.2 CE: ley de bases para textos articulados; ley ordinaria para textos refundidos.",3],
+  ["av-ce06","ce2","El estado de excepción:",["Lo declara el Gobierno por decreto, por 15 días, dando cuenta al Congreso","Lo declara el Gobierno previa autorización del Congreso, por un máximo de 30 días prorrogables por otro plazo igual","Lo declara el Congreso por mayoría absoluta a propuesta del Gobierno","Lo declara el Rey a propuesta del Senado"],1,"Art. 116.3 CE. La primera opción describe el estado de alarma y la tercera, el de sitio.",3],
+  ["av-ce07","ce2","Un decreto-ley NO puede afectar a:",["Medidas económicas urgentes","El derecho electoral general","La organización de un organismo autónomo","Ayudas urgentes por una catástrofe natural"],1,"Art. 86.1 CE: no puede afectar al ordenamiento de las instituciones básicas del Estado, a los derechos, deberes y libertades del Título I, al régimen de las Comunidades Autónomas ni al derecho electoral general.",2],
+  ["av-ce08","ce2","Señale la afirmación correcta:",["La moción de censura exige mayoría simple y la cuestión de confianza, mayoría absoluta","La moción de censura exige mayoría absoluta del Congreso y la cuestión de confianza, mayoría simple","Ambas exigen mayoría absoluta","Ambas exigen mayoría simple"],1,"Arts. 112 y 113 CE. La moción la proponen al menos una décima parte de los diputados, con un candidato, y no puede votarse hasta 5 días después de presentarse.",3],
+  ["av-ce09","ce2","De los 12 magistrados del Tribunal Constitucional, el Gobierno y el Consejo General del Poder Judicial proponen:",["4 y 4","2 y 2","3 y 3","4 y 2"],1,"Art. 159.1 CE: 4 a propuesta del Congreso, 4 del Senado (ambos por 3/5), 2 del Gobierno y 2 del CGPJ.",2],
+
+  // ---------- TREBEP (ebep) ----------
+  ["av-eb01","ebep","Un funcionario interino nombrado por exceso o acumulación de tareas puede estar, como máximo:",["6 meses en un periodo de 12","9 meses en un periodo de 18","3 años","1 año"],1,"Art. 10.1 d) TREBEP (redacción de la Ley 20/2021).",3],
+  ["av-eb02","ebep","Un interino nombrado para ejecutar un programa de carácter temporal puede estar, como máximo:",["9 meses","3 años, ampliable hasta 12 meses más por las leyes de función pública","2 años improrrogables","Lo que dure el programa, sin límite"],1,"Art. 10.1 c) TREBEP.",3],
+  ["av-eb03","ebep","La suspensión provisional de un funcionario como medida cautelar en un expediente disciplinario no puede exceder de:",["3 meses","6 meses, salvo paralización del procedimiento imputable al interesado","1 año","6 años"],1,"Art. 98.3 TREBEP. Los 6 años son el máximo de la suspensión firme como sanción (art. 96.1 c).",3],
+  ["av-eb04","ebep","La edad mínima para acceder al empleo público es:",["16 años","18 años","La mayoría de edad o emancipación","14 años"],0,"Art. 56.1 c) TREBEP: tener 16 años y no exceder la edad máxima de jubilación forzosa.",2],
+  ["av-eb05","ebep","¿Cuál NO es causa de pérdida de la condición de funcionario de carrera?",["La renuncia","La pérdida de la nacionalidad","La jubilación total","La sanción firme de suspensión de funciones"],3,"Art. 63 TREBEP. La suspensión firme no hace perder la condición; sí la separación del servicio.",2],
+  ["av-eb06","ebep","Para pasar a excedencia voluntaria por interés particular, el funcionario debe haber prestado servicios efectivos en cualquier Administración durante:",["1 año","3 años","Los 5 años inmediatamente anteriores","10 años"],2,"Art. 89.2 TREBEP. No se devengan retribuciones ni se computa el tiempo.",2],
+
+  // ---------- Estatuto Marco (em1) ----------
+  ["av-em01","em1","Para cubrir las vacaciones de un celador estatutario fijo se expide un nombramiento:",["De interinidad","Eventual","De sustitución","De comisión de servicios"],2,"Art. 9.4 Ley 55/2003: el nombramiento de sustitución cubre vacaciones, permisos y demás ausencias temporales con reserva de plaza.",2],
+  ["av-em02","em1","Un hospital necesita reforzar admisión durante unos meses por un aumento coyuntural de actividad. El nombramiento adecuado es:",["De interinidad","Eventual","De sustitución","De promoción interna temporal"],1,"Art. 9.3 Ley 55/2003: el nombramiento eventual se usa para servicios de carácter temporal, coyuntural o extraordinario.",2],
+
+  // ---------- Contrato de trabajo (contrato) ----------
+  ["av-ct01","contrato","Un trabajador encadena contratos por circunstancias de la producción. Adquiere la condición de fijo si, en un periodo de 24 meses, ha estado contratado más de:",["12 meses","18 meses","20 meses","24 meses"],1,"Art. 15.5 Estatuto de los Trabajadores (tras el RDL 32/2021), con dos o más contratos, con o sin solución de continuidad.",3],
+  ["av-ct02","contrato","El contrato por circunstancias de la producción por incremento ocasional e imprevisible de la actividad dura, como máximo:",["3 meses","6 meses, ampliable a 1 año por convenio sectorial","1 año, ampliable a 18 meses","90 días al año"],1,"Art. 15.2 ET. Los 90 días en el año natural son para las situaciones ocasionales previsibles y de duración reducida.",3],
+  ["av-ct03","contrato","En un contrato temporal de 5 meses, si el convenio no dice nada, el periodo de prueba no puede exceder de:",["15 días","1 mes","2 meses","6 meses"],1,"Art. 14.1 ET: en los contratos temporales del art. 15 de duración no superior a 6 meses, el periodo de prueba máximo es de 1 mes, salvo convenio.",3],
+  ["av-ct04","contrato","La indemnización por despido improcedente (contratos posteriores a la reforma de 2012) es de:",["20 días por año, con un máximo de 12 mensualidades","33 días por año, con un máximo de 24 mensualidades","45 días por año, con un máximo de 42 mensualidades","12 días por año"],1,"Art. 56.1 ET. 20 días/12 mensualidades es el despido objetivo procedente y 12 días, el fin de un contrato temporal.",2],
+
+  // ---------- Prevención (prl) ----------
+  ["av-pr01","prl","Un hospital tiene 650 trabajadores. ¿Cuántos Delegados de Prevención le corresponden?",["3","4","5","6"],1,"Art. 35.2 Ley 31/1995: de 501 a 1.000 trabajadores, 4 delegados (50-100: 2; 101-500: 3; 1.001-2.000: 5).",3],
+  ["av-pr02","prl","El tiempo que los Delegados de Prevención dedican a las reuniones del Comité de Seguridad y Salud:",["Se descuenta de su crédito horario","Es tiempo de trabajo efectivo sin imputarse al crédito horario","No se retribuye","Se compensa con días libres"],1,"Art. 37.1 Ley 31/1995.",3],
+  ["av-pr03","prl","El Comité de Seguridad y Salud:",["Lo forman solo los Delegados de Prevención y se reúne mensualmente","Es paritario y se reúne trimestralmente y siempre que lo pida alguna de las representaciones","Lo preside siempre un inspector de trabajo","Se reúne una vez al año"],1,"Art. 38 Ley 31/1995.",2],
+  ["av-pr04","prl","Según los principios de la acción preventiva, el empresario debe:",["Anteponer la protección individual a la colectiva","Anteponer la protección colectiva a la individual","Evaluar primero los riesgos que se pueden evitar","Adaptar la persona al trabajo"],1,"Art. 15.1 h) Ley 31/1995. Primero se evitan los riesgos, se evalúan los que no se pueden evitar y se adapta el trabajo a la persona, no al revés.",2],
+
+  // ---------- Seguridad Social (ss1 y ss2) ----------
+  ["av-ss01","ss2","Agotados los 545 días de incapacidad temporal sin alta, los efectos de la situación pueden prorrogarse hasta la calificación de la incapacidad permanente, sin rebasar en ningún caso:",["600 días","730 días desde el inicio de la IT","3 años","No hay límite"],1,"Art. 174.5 LGSS.",3],
+  ["av-ss02","ss2","Hay recaída en un mismo proceso de incapacidad temporal cuando se produce una nueva baja por la misma o similar patología dentro de los ___ siguientes al alta anterior:",["90 días naturales","180 días naturales","6 meses hábiles","365 días"],1,"Art. 169.2 LGSS: los periodos se suman a efectos de la duración máxima.",3],
+  ["av-ss03","ss1","Una administrativa tiene un accidente de tráfico yendo de casa al hospital. Ese accidente es:",["Accidente no laboral","Accidente de trabajo «in itinere»","Enfermedad profesional","Enfermedad común"],1,"Art. 156.2 a) LGSS.",2],
+  ["av-ss04","ss2","Para cobrar la incapacidad temporal derivada de enfermedad común se exige haber cotizado:",["No se exige carencia","180 días dentro de los 5 años inmediatamente anteriores","1 año en los últimos 3","15 años"],1,"Art. 172 a) LGSS. Si deriva de accidente (laboral o no) o de enfermedad profesional no se exige carencia.",2],
+  ["av-ss05","ss2","A un trabajador de 50 años se le declara una incapacidad permanente total para su profesión habitual. Su pensión es, con carácter general, del:",["55% de la base reguladora","75% de la base reguladora","100% de la base reguladora","100% más un complemento"],0,"La IP total se paga al 55%; el 20% adicional («total cualificada») exige tener 55 años o más. La absoluta es el 100% y la gran invalidez añade un complemento.",3],
+
+  // ---------- Autonomía del paciente (ley41) ----------
+  ["av-pa01","ley41","Un paciente de 17 años, no emancipado, necesita una intervención que, según el médico, supone un grave riesgo para su vida. ¿Quién presta el consentimiento?",["El propio paciente, por tener más de 16 años","El representante legal, una vez oída y tenida en cuenta la opinión del menor","El juez, siempre","El médico responsable"],1,"Art. 9.4 Ley 41/2002 (tras la Ley 26/2015).",3],
+  ["av-pa02","ley41","El personal de administración y gestión de un hospital puede acceder a la historia clínica:",["Libremente, por trabajar en el centro","Solo a los datos relacionados con sus propias funciones","Nunca","Solo con autorización judicial"],1,"Art. 16.4 Ley 41/2002. Es una pregunta muy probable para el puesto de Administrativo.",2],
+  ["av-pa03","ley41","Un paciente no acepta el tratamiento prescrito, pero sí un tratamiento alternativo paliativo que presta el centro. ¿Procede el alta forzosa?",["Sí, siempre que no acepte el tratamiento principal","No, si existen tratamientos alternativos que preste el centro y el paciente acepta recibirlos","Solo con autorización judicial previa","Sí, si el paciente no firma el alta voluntaria"],1,"Art. 21.1 Ley 41/2002.",3],
+  ["av-pa04","ley41","Cuando por razones de salud pública se dispone el internamiento obligatorio de personas, hay que comunicarlo a la autoridad judicial en un plazo máximo de:",["24 horas","48 horas","72 horas","5 días"],0,"Art. 9.2 a) Ley 41/2002.",3],
+  ["av-pa05","ley41","Tras el fallecimiento de un paciente, las personas vinculadas a él por razones familiares o de hecho:",["No pueden acceder nunca a su historia clínica","Pueden acceder, salvo que el fallecido lo hubiese prohibido expresamente y así se acredite","Pueden acceder a toda la historia, incluidas las anotaciones subjetivas","Solo pueden acceder con orden judicial"],1,"Art. 18.4 Ley 41/2002. Nunca se facilita información que afecte a la intimidad del fallecido, las anotaciones subjetivas ni la que perjudique a terceros.",3],
+  ["av-pa06","ley41","Sobre el documento de instrucciones previas, señale la INCORRECTA:",["Lo otorga una persona mayor de edad, capaz y libre","Debe constar siempre por escrito","Puede revocarse libremente en cualquier momento, dejando constancia por escrito","Se aplica aunque sea contrario a la lex artis si así lo quiso el paciente"],3,"Art. 11.3 Ley 41/2002: no se aplican las instrucciones contrarias al ordenamiento, a la lex artis ni las que no se correspondan con el supuesto de hecho previsto.",2],
+  ["av-pa07","ley41","El médico limita la información al paciente porque conocer su situación podría perjudicar gravemente su salud. Esa situación se llama:",["Privilegio terapéutico voluntario","Estado de necesidad terapéutica","Renuncia a la información","Consentimiento presunto"],1,"Art. 5.4 Ley 41/2002: el médico lo hace constar razonadamente en la historia y lo comunica a las personas vinculadas al paciente.",3],
+
+  // ---------- Ley General de Sanidad (lgs) ----------
+  ["av-lg01","lgs","Sobre la población de las Áreas de Salud, señale la correcta:",["Es siempre de 200.000 a 250.000 habitantes, sin excepciones","Es la regla general, con excepciones, y en todo caso cada provincia tendrá como mínimo un Área","Cada Área atiende como mínimo a 500.000 habitantes","La fija cada hospital"],1,"Art. 56.5 Ley 14/1986: la propia ley exceptúa Baleares, Canarias, Ceuta y Melilla.",2],
+  ["av-lg02","lgs","Según el art. 149.1.16.ª CE, es competencia exclusiva del Estado:",["La gestión de los hospitales","La sanidad exterior","La atención primaria","La gestión de los centros de salud de cada comunidad"],1,"El Estado tiene competencia exclusiva sobre sanidad exterior, bases y coordinación general de la sanidad y legislación sobre productos farmacéuticos.",2],
+
+  // ---------- Igualdad (igualdad) ----------
+  ["av-ig01","igualdad","Están obligadas a elaborar y aplicar un plan de igualdad las empresas de:",["25 o más trabajadores","50 o más trabajadores","100 o más trabajadores","250 o más trabajadores"],1,"Art. 45.2 LO 3/2007 (redacción del RDL 6/2019).",2],
+
+  // ---------- Contratación (lcsp1 y lcsp2) ----------
+  ["av-cp01","lcsp1","¿Cuál de estos NO es un contrato típico de la Ley 9/2017?",["Concesión de servicios","Suministro","Gestión de servicios públicos","Concesión de obras"],2,"Art. 12 LCSP: obras, concesión de obras, concesión de servicios, suministro y servicios. La «gestión de servicios públicos» desapareció con la Ley 9/2017.",3],
+  ["av-cp02","lcsp1","El valor estimado de un contrato:",["Incluye el IVA y las prórrogas","No incluye el IVA, pero sí las eventuales prórrogas y las modificaciones previstas","Es igual al presupuesto base de licitación","Solo incluye la primera anualidad"],1,"Art. 101 LCSP. El presupuesto base de licitación (art. 100) sí incluye el IVA.",3],
+  ["av-cp03","lcsp2","Una modificación no prevista en los pliegos es obligatoria para el contratista cuando no supera, aislada o conjuntamente:",["El 10% del precio inicial","El 20% del precio inicial, IVA excluido","El 50% del precio inicial","El 15% con IVA"],1,"Art. 206.1 LCSP. El límite máximo de las modificaciones no previstas por prestaciones adicionales es el 50% del precio inicial (art. 205).",3],
+  ["av-cp04","lcsp2","Si la Administración se retrasa en el pago al contratista:",["Con más de 2 meses de demora, puede resolver el contrato","Con más de 4 meses, puede suspender el cumplimiento avisando con 1 mes de antelación; con más de 6 meses, puede resolverlo","Solo puede reclamar intereses","Con más de 1 año, puede suspenderlo"],1,"Art. 198.5 y 6 LCSP.",3],
+  ["av-cp05","lcsp2","Si el contratista incurre en demora en el plazo total, salvo que los pliegos digan otra cosa, la penalidad diaria es de:",["0,20 € por cada 1.000 € del precio","0,60 € por cada 1.000 € del precio, IVA excluido","1 € por cada 1.000 € del precio","El 1% del precio"],1,"Art. 193.3 LCSP. Cada vez que las penalidades alcancen un múltiplo del 5% del precio, el órgano puede resolver el contrato o seguir imponiendo penalidades.",3],
+  ["av-cp06","lcsp1","Para que una prórroga sea obligatoria para el contratista, el preaviso de la Administración debe producirse con una antelación mínima de:",["15 días","1 mes","2 meses","3 meses"],2,"Art. 29.2 LCSP.",3],
+  ["av-cp07","lcsp2","En los contratos de servicios que tengan por objeto prestaciones de carácter intelectual, los criterios de calidad deben representar al menos:",["El 25% de la puntuación","El 40%","El 51%","El 75%"],2,"Art. 145.4 LCSP.",3],
+  ["av-cp08","lcsp2","En la tramitación de emergencia, el plazo para iniciar la ejecución de las prestaciones no puede ser superior a:",["15 días","1 mes desde la adopción del acuerdo","2 meses","3 meses"],1,"Art. 120.1 c) LCSP. Si se supera, hay que tramitar por el procedimiento ordinario.",2],
+  ["av-cp09","lcsp2","En la tramitación urgente, los plazos de licitación, adjudicación y formalización:",["Se reducen a la mitad, con algunas excepciones","Se reducen a un tercio","No cambian","Se suprimen"],0,"Art. 119.2 b) LCSP.",2],
+  ["av-cp10","lcsp2","Un contrato de servicios de 85.000 € de valor estimado, ¿admite recurso especial en materia de contratación?",["Sí, todos los contratos lo admiten","No: en servicios y suministros se exige un valor estimado superior a 100.000 €","Sí, si es de una Administración autonómica","No: solo procede en obras"],1,"Art. 44.1 a) LCSP: obras de más de 3.000.000 € y suministros y servicios de más de 100.000 €.",3],
+  ["av-cp11","lcsp2","El procedimiento abierto simplificado «sumario» (supersimplificado) puede usarse en contratos de servicios de valor estimado inferior a:",["15.000 €","40.000 €","60.000 €, salvo prestaciones de carácter intelectual","100.000 €"],2,"Art. 159.6 LCSP (redacción del RDL 36/2020): obras de menos de 80.000 € y suministros y servicios de menos de 60.000 €.",3],
+  ["av-cp12","lcsp1","En casos especiales, como una oferta anormalmente baja, los pliegos pueden exigir una garantía complementaria de hasta un ___ adicional, de modo que la total puede llegar al ___:",["3% / 8%","5% / 10%","10% / 15%","2% / 7%"],1,"Art. 107.2 LCSP.",3],
+
+  // ---------- Presupuestos (lgp, presup2) ----------
+  ["av-gp01","lgp","Según la Ley 47/2003 (ámbito estatal), los gastos plurianuales pueden extenderse a un máximo de ___ ejercicios, con unos porcentajes de ___:",["3 / 70, 60 y 50","4 / 70, 60, 50 y 50","5 / 80, 70, 60, 50 y 50","4 / 100, 80, 60 y 40"],1,"Art. 47.3 Ley 47/2003, aplicados sobre el crédito inicial del año en que se compromete la operación.",3],
+  ["av-gp02","lgp","La clasificación del presupuesto de gastos que responde a la pregunta «¿para qué se gasta?» es la:",["Orgánica","Por programas (funcional)","Económica","Territorial"],1,"Orgánica: quién gasta. Por programas: para qué. Económica: en qué se gasta.",2],
+  ["av-gp03","lgp","Un hospital compra un equipo de resonancia magnética y paga la nómina de su personal. Esos gastos se imputan, respectivamente, a los capítulos:",["2 y 1","6 y 1","6 y 4","7 y 1"],1,"Capítulo 6: inversiones reales. Capítulo 1: gastos de personal. El material fungible (gasas, papel) iría al capítulo 2.",3],
+  ["av-gp04","lgp","Según la Ley 47/2003, las transferencias de crédito NO pueden:",["Afectar a créditos de distintos programas","Minorar créditos que se hayan incrementado con suplementos o transferencias, salvo los de personal","Realizarse en el último trimestre","Afectar a créditos del capítulo 2"],1,"Art. 52.1 Ley 47/2003. Tampoco pueden afectar a créditos ampliables ni a los extraordinarios concedidos durante el ejercicio.",3],
+  ["av-gp05","presup2","Según la Ley 47/2003, los perceptores de pagos «a justificar» deben justificar con carácter general las cantidades recibidas en el plazo de:",["1 mes","3 meses","6 meses","1 año"],1,"Art. 79.4 Ley 47/2003; 6 meses en expropiaciones y pagos en el extranjero.",3],
+  ["av-gp06","presup2","Los anticipos de caja fija son:",["Créditos extraordinarios para gastos urgentes","Provisiones de fondos de carácter no presupuestario y permanente para atender gastos periódicos o repetitivos","Pagos sin justificar","Transferencias a otras Administraciones"],1,"Art. 78 Ley 47/2003: se aplican después al presupuesto (material de oficina no inventariable, conservación, etc.).",2],
+
+  // ---------- Gasto e ingresos (gasto) ----------
+  ["av-ga01","gasto","Una piscina municipal, de uso voluntario y cuyo servicio también prestan empresas privadas, cobra una cantidad por la entrada. Esa cantidad es:",["Una tasa","Un precio público","Una contribución especial","Un impuesto"],1,"Si el servicio es de solicitud voluntaria y lo presta también el sector privado, es precio público; si es obligatorio o no lo presta el sector privado, es tasa.",3],
+  ["av-ga02","gasto","Un propietario paga un tributo por el aumento de valor de su finca debido a la urbanización de su calle por el ayuntamiento. Es:",["Una tasa","Un impuesto","Una contribución especial","Un precio público"],2,"Art. 2.2 b) Ley 58/2003: el hecho imponible es el beneficio o aumento de valor de bienes por obras o servicios públicos.",2],
+  ["av-ga03","gasto","En el presupuesto de ingresos, las tasas y los precios públicos se recogen en el capítulo:",["1","2","3","5"],2,"Capítulo 1: impuestos directos; 2: impuestos indirectos; 3: tasas, precios públicos y otros ingresos; 5: ingresos patrimoniales.",2],
+
+  // ---------- Almacenes (almacen) ----------
+  ["av-al01","almacen","Un almacén consume 20 unidades al día, el proveedor tarda 5 días en servir y el stock de seguridad es de 50 unidades. ¿Cuál es el punto de pedido?",["100 unidades","120 unidades","150 unidades","250 unidades"],2,"Punto de pedido = consumo diario × plazo de entrega + stock de seguridad = 20 × 5 + 50 = 150.",3],
+  ["av-al02","almacen","El consumo anual es de 12.000 unidades y el stock medio de 2.000. Tomando un año de 360 días, la rotación y el periodo medio de almacenamiento son:",["6 veces / 60 días","6 veces / 30 días","12 veces / 30 días","4 veces / 90 días"],0,"Rotación = consumo / stock medio = 12.000 / 2.000 = 6. Periodo medio = 360 / 6 = 60 días.",3],
+  ["av-al03","almacen","Se compran 100 unidades a 2 € y después otras 100 a 4 €. Por el método del precio medio ponderado, cada unidad se valora en:",["2 €","3 €","4 €","3,50 €"],1,"(100 × 2 + 100 × 4) / 200 = 600 / 200 = 3 €.",2],
+  ["av-al04","almacen","En el análisis ABC de inventarios, los artículos de la clase A son:",["Muchos artículos de poco valor","Pocos artículos que concentran la mayor parte del valor","Los de rotación más lenta","Los caducados"],1,"Suele aproximarse a un 20% de los artículos con un 80% del valor: son los que exigen más control.",2],
+
+  // ---------- Residuos (residuos) ----------
+  ["av-re01","residuos","Las agujas y el material cortante o punzante contaminado se clasifican, en la normativa de la Comunidad de Madrid, como residuos:",["Generales asimilables a urbanos (clase I)","Biosanitarios asimilables a urbanos (clase II)","Biosanitarios especiales (clase III)","Citotóxicos (clase VI)"],2,"Decreto 83/1999 de la Comunidad de Madrid: los cortantes y punzantes son residuos biosanitarios especiales y se depositan en contenedores rígidos.",2],
+
+  // ---------- Ofimática (ofimatica) ----------
+  ["av-of01","ofimatica","En Excel, la celda C2 contiene =$A1*B$1. Si se copia en D4, la fórmula queda:",["=$A1*B$1","=$A3*C$1","=$A3*B$1","=$B3*C$1"],1,"Se desplaza 1 columna y 2 filas. El $ fija lo que tiene delante: $A1 mantiene la columna A y cambia la fila (1→3); B$1 mantiene la fila 1 y cambia la columna (B→C).",3],
+  ["av-of02","ofimatica","Un rango contiene 3 números, 2 textos y 1 celda vacía. ¿Qué devuelve CONTARA sobre ese rango?",["3","5","6","2"],1,"CONTARA cuenta las celdas no vacías (números y textos): 5. CONTAR solo cuenta números (3) y CONTAR.BLANCO, las vacías (1).",3],
+  ["av-of03","ofimatica","En la función BUSCARV, poner FALSO en el cuarto argumento sirve para:",["Buscar una coincidencia aproximada","Buscar una coincidencia exacta","Ordenar la tabla","Devolver un error si hay duplicados"],1,"Con FALSO (o 0) busca el valor exacto; con VERDADERO u omitido, una coincidencia aproximada en una columna ordenada.",2],
+  ["av-of04","ofimatica","BUSCARV no encuentra el valor buscado. ¿Qué error muestra Excel?",["#¡DIV/0!","#¿NOMBRE?","#N/A","#¡REF!"],2,"#N/A: valor no disponible. #¡DIV/0!: división entre cero. #¿NOMBRE?: función mal escrita. #¡REF!: referencia no válida.",2],
+  ["av-of05","ofimatica","A1 vale 5 y B1 está vacía. ¿Qué devuelve =SI(Y(A1>=5;B1<>\"\");\"Apto\";\"No apto\")?",["Apto","No apto","#¡VALOR!","FALSO"],1,"Y() exige que se cumplan las dos condiciones: A1>=5 es verdadero, pero B1<>\"\" es falso porque B1 está vacía. Por tanto, devuelve «No apto».",3],
+  ["av-of06","ofimatica","En Word en español, el atajo Ctrl+L abre:",["Buscar","Reemplazar","Imprimir","Seleccionar todo"],1,"En la versión en español: Ctrl+B buscar, Ctrl+L reemplazar, Ctrl+P imprimir y Ctrl+E seleccionar todo.",3],
+  ["av-of07","ofimatica","Si quieres consultar el mismo correo desde el móvil y desde el ordenador, manteniendo los mensajes sincronizados en el servidor, el protocolo adecuado es:",["POP3","IMAP","SMTP","FTP"],1,"IMAP mantiene los mensajes en el servidor y sincroniza dispositivos; POP3 suele descargarlos; SMTP sirve para enviar.",2],
+  ["av-of08","ofimatica","En una base de datos de Access, el campo de clave principal:",["Admite valores repetidos","No admite valores nulos ni duplicados","Debe ser siempre de texto","Puede quedar vacío si hay otro campo índice"],1,"La clave principal identifica cada registro de forma única.",2],
+  ["av-of09","ofimatica","Una dirección IPv4 y una IPv6 tienen, respectivamente:",["32 y 64 bits","32 y 128 bits","64 y 128 bits","16 y 32 bits"],1,"IPv4: 32 bits (4 números de 0 a 255). IPv6: 128 bits.",2]
+];
+
+// nv = nivel de dificultad: 1 básico, 2 intermedio-avanzado, 3 avanzado.
+const NIVELES = { 1: "Básico", 2: "Intermedio-avanzado", 3: "Avanzado" };
+const PREGUNTAS = [
+  ...PREGUNTAS_RAW.map(([id, m, q, o, a, e]) => ({ id, m, q, o, a, e, nv: 1 })),
+  ...PREGUNTAS_AVANZADAS_RAW.map(([id, m, q, o, a, e, nv]) => ({ id, m, q, o, a, e, nv }))
+];
 
 /* ============================================================
    TARJETAS DE MEMORIA
@@ -1551,134 +1741,6 @@ const TABLAS = [
 ];
 
 /* ============================================================
-   APP INSTALABLE (solo en la versión para GitHub Pages)
-   - Funciona sin internet gracias al service worker (sw.js).
-   - Avisa cuando hay una versión nueva y se actualiza al pulsar.
-   - Indica cuándo no hay conexión.
-   - Ofrece instalar la app en la tablet o el móvil.
-   - Copia de seguridad del progreso (exportar/importar).
-   ============================================================ */
-function iniciarApp(api) {
-  "use strict";
-  const $ = (s) => document.querySelector(s);
-  const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-  const leer = (k) => { try { return localStorage.getItem(k); } catch (e) { return null; } };
-  const escribir = (k, v) => { try { localStorage.setItem(k, v); } catch (e) {} };
-  const instalada = () => window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
-
-  // ---------- 1. Funcionamiento sin conexión y actualizaciones ----------
-  let swNuevo = null, pidioActualizar = false;
-  if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("./sw.js").then((reg) => {
-      if (reg.waiting && navigator.serviceWorker.controller) avisarActualizacion(reg.waiting);
-      reg.addEventListener("updatefound", () => {
-        const sw = reg.installing;
-        if (!sw) return;
-        sw.addEventListener("statechange", () => {
-          if (sw.state === "installed" && navigator.serviceWorker.controller) avisarActualizacion(sw);
-        });
-      });
-      // Al volver a la app (o cada 30 min) se comprueba si hay versión nueva, si hay internet.
-      const comprobar = () => { if (navigator.onLine) reg.update().catch(() => {}); };
-      document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") comprobar(); });
-      setInterval(comprobar, 30 * 60 * 1000);
-    }).catch(() => {});
-    navigator.serviceWorker.addEventListener("controllerchange", () => {
-      if (pidioActualizar) { pidioActualizar = false; location.reload(); }
-    });
-  }
-
-  function avisarActualizacion(sw) {
-    swNuevo = sw;
-    $("#aviso-app").innerHTML = `
-      <div class="novedad" role="status">
-        <div><strong>Hay una versión nueva de la app</strong><p>Incluye el contenido más reciente. Tu progreso se conserva.</p></div>
-        <button class="btn peq" id="btn-actualizar">Actualizar ahora</button>
-      </div>`;
-    $("#btn-actualizar").addEventListener("click", () => {
-      if (!swNuevo) return;
-      pidioActualizar = true;
-      swNuevo.postMessage("SKIP_WAITING");
-    });
-  }
-
-  // ---------- 2. Indicador de conexión ----------
-  function pintarRed() {
-    const el = $("#red");
-    if (el) el.hidden = navigator.onLine;
-  }
-  window.addEventListener("online", pintarRed);
-  window.addEventListener("offline", pintarRed);
-  pintarRed();
-
-  // ---------- 3. Instalar la app ----------
-  let promptInstalar = null;
-  const esIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
-  window.addEventListener("beforeinstallprompt", (e) => { e.preventDefault(); promptInstalar = e; pintarInstalar(); });
-  window.addEventListener("appinstalled", () => { promptInstalar = null; $("#aviso-instalar").innerHTML = ""; });
-
-  function pintarInstalar() {
-    const el = $("#aviso-instalar");
-    const enEjercicio = location.hash === "#hacer" || location.hash === "#tarjetas";
-    if (!el || instalada() || enEjercicio || leer("sermasInstalarOculto")) { if (el) el.innerHTML = ""; return; }
-    let cuerpo;
-    if (promptInstalar) cuerpo = `<p>Tenla en tu pantalla de inicio como una app más. Funciona sin internet.</p><button class="btn peq" id="btn-instalar">Instalar app</button>`;
-    else if (esIOS) cuerpo = `<p>En Safari, pulsa <strong>Compartir</strong> <span aria-hidden="true">⎋</span> y elige <strong>«Añadir a pantalla de inicio»</strong>. Así se abre a pantalla completa y funciona sin internet.</p>`;
-    else cuerpo = `<p>En el menú del navegador (⋮), elige <strong>«Instalar app»</strong> o <strong>«Añadir a pantalla de inicio»</strong>. Funciona sin internet.</p>`;
-    el.innerHTML = `<div class="instalar"><span class="ico" aria-hidden="true">📲</span><div><strong>Instala la app en tu tablet o móvil</strong>${cuerpo}</div><button class="cerrar" id="btn-ocultar-instalar" aria-label="No mostrar más">✕</button></div>`;
-    const b = $("#btn-instalar");
-    if (b) b.addEventListener("click", async () => { promptInstalar.prompt(); await promptInstalar.userChoice.catch(() => {}); promptInstalar = null; pintarInstalar(); });
-    $("#btn-ocultar-instalar").addEventListener("click", () => { escribir("sermasInstalarOculto", "1"); pintarInstalar(); });
-  }
-  pintarInstalar();
-  window.addEventListener("hashchange", pintarInstalar);
-
-  // ---------- 4. Copia de seguridad del progreso ----------
-  // El progreso se guarda en cada dispositivo. Con esto se puede pasar a otro o guardar una copia.
-  const copia = $("#copia");
-  if (copia) {
-    copia.innerHTML = ` · Copia de seguridad: <button class="enlace" id="btn-exportar">Guardar copia</button> · <button class="enlace" id="btn-importar">Recuperar copia</button><input type="file" id="fichero-copia" accept="application/json,.json" hidden>`;
-    $("#btn-exportar").addEventListener("click", () => {
-      const datos = JSON.stringify({ app: "sermas-c1", fecha: new Date().toISOString(), datos: api.datos });
-      const url = URL.createObjectURL(new Blob([datos], { type: "application/json" }));
-      const a = document.createElement("a");
-      a.href = url; a.download = "sermas-progreso-" + new Date().toISOString().slice(0, 10) + ".json";
-      document.body.appendChild(a); a.click(); a.remove();
-      setTimeout(() => URL.revokeObjectURL(url), 2000);
-    });
-    $("#btn-importar").addEventListener("click", () => $("#fichero-copia").click());
-    $("#fichero-copia").addEventListener("change", async (ev) => {
-      const f = ev.target.files && ev.target.files[0];
-      ev.target.value = "";
-      if (!f) return;
-      try {
-        const obj = JSON.parse(await f.text());
-        const d = obj && obj.app === "sermas-c1" ? obj.datos : null;
-        if (!d || typeof d !== "object" || typeof d.preg !== "object" || !Array.isArray(d.tests)) throw new Error("formato");
-        mostrarConfirmacion(`¿Recuperar la copia del ${esc(new Date(obj.fecha).toLocaleDateString("es-ES"))}? Sustituirá el progreso actual de este dispositivo (${d.tests.length} tests en la copia).`, () => { api.datos = d; });
-      } catch (e) {
-        mostrarConfirmacion("Ese archivo no es una copia de seguridad válida de esta app.", null);
-      }
-    });
-  }
-
-  function mostrarConfirmacion(texto, alAceptar) {
-    $("#aviso-app").innerHTML = `
-      <div class="novedad ${alAceptar ? "" : "error"}" role="alertdialog">
-        <div><p>${texto}</p></div>
-        <div class="acc-dialogo">
-          ${alAceptar ? `<button class="btn peq" id="dlg-si">Sí, recuperar</button>` : ""}
-          <button class="btn sec peq" id="dlg-no">${alAceptar ? "Cancelar" : "Cerrar"}</button>
-        </div>
-      </div>`;
-    window.scrollTo({ top: 0 });
-    const cerrar = () => { $("#aviso-app").innerHTML = ""; };
-    if (alAceptar) $("#dlg-si").addEventListener("click", () => { alAceptar(); cerrar(); });
-    $("#dlg-no").addEventListener("click", cerrar);
-  }
-}
-
-/* ============================================================
    APLICACIÓN
    ============================================================ */
 (function () {
@@ -1837,8 +1899,18 @@ function iniciarApp(api) {
     else if (vista === "tarjetas") { if (!SES) return ir("#repaso"); app.innerHTML = vTarjeta(); }
     else app.innerHTML = vInicio();
     pintarAviso();
+    pintarTestPendiente(vista);
     pintarEstadoGuardado();
     if (vista !== "hacer") window.scrollTo(0, 0);
+  }
+
+  // ---------- Aviso de test a medias ----------
+  function pintarTestPendiente(vista) {
+    const el = $("#aviso-app");
+    if (!el) return;
+    if (!TEST || vista === "hacer") { el.innerHTML = ""; return; }
+    const resp = TEST.resp.filter((r) => r !== null).length;
+    el.innerHTML = `<div class="novedad" role="status"><div><strong>Tienes un test a medias: ${esc(TEST.titulo)}</strong><p>${resp} de ${TEST.ids.length} respondidas${TEST.limite ? " · el cronómetro sigue corriendo" : ""}.</p></div><div class="acc-dialogo"><button class="btn peq" data-go="#hacer">Continuar</button><button class="btn sec peq" data-act="descartar-test">Descartar</button></div></div>`;
   }
 
   // ---------- Aviso de versión del temario ----------
@@ -1935,6 +2007,7 @@ function iniciarApp(api) {
     return `
     <div class="cab"><h1>Temario</h1><p>40 temas en 6 bloques. Abre un tema para leer su resumen y hacer su test.</p></div>
     <div class="buscador"><input id="buscar" type="search" placeholder="Buscar tema o ley (p. ej. «39/2015», «contratos»)" aria-label="Buscar en el temario"></div>
+    <p class="vacio" id="sin-resultados" role="status" hidden>Ningún tema coincide con la búsqueda.</p>
     ${BLOQUES.map((b) => `
       <section class="bloque" data-bloque="${b.id}">
         <div class="bloque-cab">
@@ -1988,7 +2061,9 @@ function iniciarApp(api) {
   }
 
   // ---------- Configuración de test ----------
-  let CFG = { modo: "aleatorio", tema: 1, bloque: "B1", num: 20, correccion: "final", tiempo: true };
+  let CFG = { modo: "aleatorio", tema: 1, bloque: "B1", nivel: "todos", num: 20, correccion: "final", tiempo: true };
+  const OPC_NIVEL = [["todos", "Todos", "Mezcla de todos los niveles"], ["1", "Básico", "Conceptos y datos clave"], ["2", "Intermedio-avanzado", "Matices y excepciones"], ["3", "Avanzado", "Estilo examinador"], ["dificil", "Mezcla exigente", "Intermedio-avanzado + avanzado"]];
+  const filtraNivel = (qs) => CFG.nivel === "todos" ? qs : qs.filter((q) => CFG.nivel === "dificil" ? q.nv >= 2 : q.nv === Number(CFG.nivel));
 
   function vConfigTest(arg) {
     if (arg === "simulacro") CFG.modo = "simulacro";
@@ -2014,6 +2089,12 @@ function iniciarApp(api) {
       ${CFG.modo === "tema" ? `<label class="campo">Tema<select id="cfg-tema">${temasConPreg.map((t) => `<option value="${t.n}" ${t.n === CFG.tema ? "selected" : ""}>Tema ${t.n}. ${esc(t.t.length > 80 ? t.t.slice(0, 80) + "…" : t.t)} (${preguntasDeTema(t.n).length})</option>`).join("")}</select></label>` : ""}
       ${CFG.modo === "bloque" ? `<label class="campo">Bloque<select id="cfg-bloque">${BLOQUES.map((b) => `<option value="${b.id}" ${b.id === CFG.bloque ? "selected" : ""}>Bloque ${b.id.slice(1)}. ${esc(b.nombre)}</option>`).join("")}</select></label>` : ""}
 
+      ${["aleatorio", "tema", "bloque"].includes(CFG.modo) ? `
+      <h2>Dificultad</h2>
+      <div class="opciones-modo" role="radiogroup" aria-label="Dificultad">
+        ${OPC_NIVEL.map(([v, t, d]) => `<button role="radio" aria-checked="${CFG.nivel === v}" class="modo ${CFG.nivel === v ? "sel" : ""}" data-act="cfg-nivel" data-v="${v}"><strong>${t}</strong><small>${d}</small></button>`).join("")}
+      </div>` : ""}
+
       ${CFG.modo !== "simulacro" ? `
       <h2>2. Número de preguntas</h2>
       <div class="segmentado">${[10, 20, 30, 50].map((n) => `<button class="${CFG.num === n ? "sel" : ""}" data-act="cfg-num" data-v="${n}">${n}</button>`).join("")}<button class="${CFG.num === 0 ? "sel" : ""}" data-act="cfg-num" data-v="0">Todas</button></div>
@@ -2033,13 +2114,18 @@ function iniciarApp(api) {
   }
 
   function poolSegunCfg() {
-    if (CFG.modo === "tema") return preguntasDeTema(CFG.tema);
-    if (CFG.modo === "bloque") { const b = BLOQUES.find((x) => x.id === CFG.bloque); return b ? temasDeBloque(b).flatMap((t) => preguntasDeTema(t.n)) : []; }
+    if (CFG.modo === "tema") return filtraNivel(preguntasDeTema(CFG.tema));
+    if (CFG.modo === "bloque") { const b = BLOQUES.find((x) => x.id === CFG.bloque); return b ? filtraNivel(temasDeBloque(b).flatMap((t) => preguntasDeTema(t.n))) : []; }
     if (CFG.modo === "fallos") return pendientesRepaso().map((id) => Q_BY_ID[id]);
-    return PREGUNTAS.filter((q) => temaDe(q));
+    if (CFG.modo === "simulacro") return PREGUNTAS.filter((q) => temaDe(q));
+    return filtraNivel(PREGUNTAS.filter((q) => temaDe(q)));
   }
 
   function tituloCfg() {
+    const n = ["aleatorio", "tema", "bloque"].includes(CFG.modo) && CFG.nivel !== "todos" ? " · " + OPC_NIVEL.find((x) => x[0] === CFG.nivel)[1] : "";
+    return tituloBase() + n;
+  }
+  function tituloBase() {
     if (CFG.modo === "tema") return `Tema ${CFG.tema}`;
     if (CFG.modo === "bloque") return `Bloque ${CFG.bloque.slice(1)}`;
     if (CFG.modo === "fallos") return "Repaso de fallos";
@@ -2091,7 +2177,7 @@ function iniciarApp(api) {
     <div class="barra"><span style="width:${pct(respondidas, total)}%"></span></div>
     <div class="test-grid"><div class="test-main">
     <article class="pregunta">
-      <p class="q-meta">Tema ${tn}${T.marcadas[i] ? ` · <span class="marca">★ Marcada para revisar</span>` : ""}</p>
+      <p class="q-meta">Tema ${tn} · ${NIVELES[q.nv]}${T.marcadas[i] ? ` · <span class="marca">★ Marcada para revisar</span>` : ""}</p>
       <h2 class="q-txt">${esc(q.q)}</h2>
       <div class="opts" role="radiogroup" aria-label="Respuestas">
         ${T.orden[i].map((oi, k) => {
@@ -2144,7 +2230,7 @@ function iniciarApp(api) {
       const s = D.preg[id] || { n: 0, ok: 0, ko: 0, bl: 0, last: null };
       s.n++; s[res]++; s.last = res; s.t = Date.now();
       D.preg[id] = s;
-      return [id, r === null ? -1 : r];
+      return [id, r === null ? -1 : r, T.orden[k]];
     });
     const p = puntuar(a, f, T.ids.length);
     D.tests.push({ fecha: Date.now(), modo: T.modo, titulo: T.titulo, n: T.ids.length, a, f, b, neta: p.neta, nota: p.nota, dur: Math.round((Date.now() - T.inicio) / 1000), porTiempo, det: detalle });
@@ -2159,7 +2245,7 @@ function iniciarApp(api) {
   function vResultado(idx) {
     const t = D.tests[idx];
     if (!t) return `<p>No se encuentra ese test. <a href="#estadisticas">Ver historial</a></p>`;
-    const items = t.det.map(([id, r]) => ({ q: Q_BY_ID[id], r })).filter((x) => x.q);
+    const items = t.det.map(([id, r, ord]) => ({ q: Q_BY_ID[id], r, ord: Array.isArray(ord) && ord.length === 4 ? ord : [0, 1, 2, 3] })).filter((x) => x.q);
     const porTema = {};
     items.forEach(({ q, r }) => { const n = temaDe(q); porTema[n] = porTema[n] || { ok: 0, ko: 0, bl: 0 }; porTema[n][r === -1 ? "bl" : r === q.a ? "ok" : "ko"]++; });
     const filtrados = items.filter(({ q, r }) => filtroRevision === "todas" || (filtroRevision === "ko" && r !== -1 && r !== q.a) || (filtroRevision === "bl" && r === -1) || (filtroRevision === "ok" && r === q.a));
@@ -2201,13 +2287,13 @@ function iniciarApp(api) {
           ${[["todas", `Todas (${items.length})`], ["ko", `Fallos (${t.f})`], ["bl", `En blanco (${t.b})`], ["ok", `Aciertos (${t.a})`]].map(([v, l]) => `<button class="${filtroRevision === v ? "sel" : ""}" data-act="filtro" data-v="${v}">${l}</button>`).join("")}
         </div>
       </div>
-      ${filtrados.length ? filtrados.map(({ q, r }) => {
+      ${filtrados.length ? filtrados.map(({ q, r, ord }) => {
         const n = items.findIndex((x) => x.q === q) + 1;
         const est = r === -1 ? "bl" : r === q.a ? "ok" : "ko";
         return `<article class="rev ${est}">
           <p class="q-meta">Pregunta ${n} · Tema ${temaDe(q)} · <span class="estado">${est === "ok" ? "Acertada" : est === "ko" ? "Fallada" : "En blanco"}</span></p>
           <h3>${esc(q.q)}</h3>
-          <ul class="rev-opts">${q.o.map((o, k) => `<li class="${k === q.a ? "correcta" : k === r ? "incorrecta" : ""}"><span class="letra">${LETRAS[k]}</span><span>${esc(o)}</span>${k === q.a ? `<em>Correcta</em>` : k === r ? `<em>Tu respuesta</em>` : ""}</li>`).join("")}</ul>
+          <ul class="rev-opts">${ord.map((k, pos) => `<li class="${k === q.a ? "correcta" : k === r ? "incorrecta" : ""}"><span class="letra">${LETRAS[pos]}</span><span>${esc(q.o[k])}</span>${k === q.a ? `<em>Correcta</em>` : k === r ? `<em>Tu respuesta</em>` : ""}</li>`).join("")}</ul>
           <p class="explic-txt">💡 ${esc(q.e)}</p>
         </article>`; }).join("") : `<p class="vacio">No hay preguntas en este filtro.</p>`}
     </section>`;
@@ -2454,8 +2540,9 @@ function iniciarApp(api) {
     if (!el) return;
     const act = el.dataset.act;
     switch (act) {
-      case "rapido": CFG = Object.assign({}, CFG, { modo: "rapido", num: 10, correccion: "inmediata", tiempo: false }); crearTestRapido(); break;
+      case "rapido": crearTestRapido(); break;
       case "cfg-modo": CFG.modo = el.dataset.v; render(); break;
+      case "cfg-nivel": CFG.nivel = el.dataset.v; render(); break;
       case "cfg-num": CFG.num = parseInt(el.dataset.v, 10); render(); break;
       case "cfg-corr": CFG.correccion = el.dataset.v; render(); break;
       case "empezar": crearTest(); break;
@@ -2487,9 +2574,9 @@ function iniciarApp(api) {
       }
       case "estudiado": { const n = el.dataset.n; D.estudiados[n] = !D.estudiados[n]; guardar(); render(); break; }
       case "reset":
-        if (!resetArmado) { resetArmado = true; el.textContent = "¿Seguro? Pulsa otra vez para borrarlo todo"; setTimeout(() => { resetArmado = false; }, 5000); return; }
+        if (!resetArmado) { resetArmado = true; el.textContent = "¿Seguro? Pulsa otra vez para borrarlo todo"; setTimeout(() => { resetArmado = false; if (el.isConnected) el.textContent = "Borrar todo mi progreso"; }, 5000); return; }
         resetArmado = false; const vistos = D.avisosVistos; D = vacio(); D.avisosVistos = vistos; guardar(); render(); break;
-      case "tarj-hoy": if (crearSesion("hoy")) ir("#tarjetas"); break;
+      case "tarj-hoy": ir(crearSesion("hoy") ? "#tarjetas" : "#repaso"); break;
       case "tarj-tema": if (crearSesion("tema", parseInt(el.dataset.n, 10))) ir("#tarjetas"); break;
       case "tarj-tema-sel": if (crearSesion("tema", MAZO.tema)) ir("#tarjetas"); break;
       case "tarj-bloque-sel": if (crearSesion("bloque", MAZO.bloque)) ir("#tarjetas"); break;
@@ -2505,6 +2592,7 @@ function iniciarApp(api) {
       case "destapar": el.classList.toggle("vista"); break;
       case "destapar-todo": document.querySelectorAll("#tabla-repaso .celda").forEach((c) => c.classList.add("vista")); break;
       case "cerrar-novedad": D.avisosVistos[VERSION_TEMARIO.id] = true; guardar(); pintarAviso(); break;
+      case "descartar-test": TEST = null; render(); break;
       case "info-version": { const i = $("#info-version"); i.hidden = !i.hidden; break; }
     }
   });
@@ -2521,6 +2609,7 @@ function iniciarApp(api) {
     const term = ev.target.value.trim().toLowerCase();
     document.querySelectorAll(".tema-fila").forEach((li) => { li.hidden = term && !li.dataset.txt.includes(term) && !temaCoincide(li, term); });
     document.querySelectorAll(".bloque").forEach((b) => { b.hidden = ![...b.querySelectorAll(".tema-fila")].some((li) => !li.hidden); });
+    const sr = $("#sin-resultados"); if (sr) sr.hidden = !!document.querySelector(".bloque:not([hidden])");
   });
   function temaCoincide(li, term) {
     const n = parseInt(li.querySelector("a").getAttribute("href").split("-")[1], 10);
@@ -2550,8 +2639,10 @@ function iniciarApp(api) {
   }
 
   function crearTestRapido() {
-    CFG.modo = "aleatorio"; CFG.num = 10; CFG.correccion = "inmediata"; CFG.tiempo = false;
+    const previa = CFG;
+    CFG = Object.assign({}, CFG, { modo: "aleatorio", num: 10, correccion: "inmediata", tiempo: false });
     crearTest();
+    CFG = previa;
     TEST.titulo = "Test rápido"; TEST.modo = "rapido";
   }
 
